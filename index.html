@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-ale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            justify-content: center;
+        }
+
+        table {
+            height: 300px;
+            width: 385px;
+            background-color: rgb(82, 82, 39);
+            text-align: center;
+            border-radius: 80px;
+        }
+
+        #first,
+        #second {
+            width: 200px;
+            margin: 10px;
+        }
+
+        #second {
+            position: absolute;
+            left: 180px;
+        }
+
+        #start,
+        #reset,
+        #stop {
+            margin-left: 10px;
+            margin-right: 23px;
+            width: 100px;
+        }
+
+        #start {
+            background-color: green;
+            box-shadow: 0.5px 1px 5px green;
+            border-width: 0px;
+        }
+
+        #start:active,
+        #stop:active,
+        #reset:active {
+            transform: translate(1px, 0.4px);
+        }
+
+        #stop {
+            /* width: 100px; */
+            background-color: red;
+            box-shadow: 0.5px 1px 5px red;
+            border: 0px solid rgb(14, 1, 1);
+        }
+
+        #reset {
+            background-color: rgb(158, 169, 132);
+            border-width: 0px;
+            box-shadow: 0.5px 1px 5px yellow
+        }
+
+        button {
+            height: 50px;
+            width: 50px;
+            border-radius: 30px;
+            border: 2px solid black;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tbody>
+            <tr>
+                <td><button id="a" onclick="Change(this)" disabled></button></td>
+                <td><button id="b" onclick="Change(this)" disabled></button></td>
+                <td><button id="c" onclick="Change(this)" disabled></button></td>
+            </tr>
+            <tr>
+                <td><button id="d" onclick="Change(this)" disabled></button></td>
+                <td><button id="e" onclick="Change(this)" disabled></button></td>
+                <td><button id="f" onclick="Change(this)" disabled></button></td>
+            </tr>
+            <tr>
+                <td><button id="g" onclick="Change(this)" disabled></button></td>
+                <td><button id="h" onclick="Change(this)" disabled></button></td>
+                <td><button id="i" onclick="Change(this)" disabled></button></td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="first" disabled>1st Player</button>
+    <button id="second" disabled>2nd Player</button>
+    <br>
+    <button id="start" onclick="StartGame()">Start</button>
+    <button id="stop" onclick="StopGame()">Pause</button>
+    <button id="reset" onclick="ResetGame()">Reset</button>
+    <script>
+        var first = 0;
+        function StartGame() {
+            var arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
+            for (let i = 0; i < 9; i++) {
+                var ele = document.getElementById(`${arr[i]}`);
+                ele.disabled = false;
+                ele.style.background = "white";
+            }
+
+            if (first == 0) {
+                document.getElementById("first").style.background = "yellow";
+                document.getElementById("second").style.background = "white";
+            }
+            else {
+                document.getElementById("first").style.background = "white";
+                document.getElementById("second").style.background = "yellow";
+            }
+        }
+
+        function StopGame() {
+            var flag = 1; // it means it is stop 
+            if (document.getElementById("stop").innerHTML == "Resume") {
+                flag = 0; // it means it is resume
+            }
+            var arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
+            for (let i = 0; i < 9; i++) {
+                var ele = document.getElementById(`${arr[i]}`);
+                if (flag) {
+                    // stop all the buttons 
+                    ele.disabled = true;
+                    if (ele.style.background == "white") ele.style.background = "rgb(158, 169, 132)";
+                }
+                else {
+                    if (ele.style.background == "rgb(158, 169, 132)"){
+                        ele.style.background = "white";
+                        ele.disabled = false;
+                    }
+                }
+            }
+            var ele = document.getElementById("stop");
+            if (ele.innerHTML == "Pause") {
+                ele.innerHTML = "Resume";
+                ele.style.width = "120px";
+            }
+            else {
+                ele.innerHTML = "Pause";
+                ele.style.width = "100px";
+            }
+
+        }
+
+        function ResetGame() {
+            first = 0;
+            document.getElementById("first").style.background = "white";
+            document.getElementById("second").style.background = "white";
+            var arr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
+            for (let i = 0; i < 9; i++) {
+                var ele = document.getElementById(`${arr[i]}`);
+                ele.disabled = true;
+                ele.innerHTML = "";
+                ele.style.background = "rgb(158, 169, 132)";
+            }
+        }
+
+        function Change(ele) {
+            if (first) {
+                ele.innerHTML = "X"
+                ele.style.background = "red";
+                ele.disabled = true;
+                document.getElementById("first").style.background = "yellow";
+                document.getElementById("second").style.background = "white";
+            }
+            else {
+                ele.innerHTML = "O"
+                ele.style.background = "blue";
+                ele.disabled = true;
+                document.getElementById("first").style.background = "white";
+                document.getElementById("second").style.background = "yellow";
+            }
+            first++;
+            first %= 2;
+
+            var A = document.getElementById("a").innerHTML;
+            var B = document.getElementById("b").innerHTML;
+            var C = document.getElementById("c").innerHTML;
+            var D = document.getElementById("d").innerHTML;
+            var E = document.getElementById("e").innerHTML;
+            var F = document.getElementById("f").innerHTML;
+            var G = document.getElementById("g").innerHTML;
+            var H = document.getElementById("h").innerHTML;
+            var I = document.getElementById("i").innerHTML;
+
+            var flag = false;
+            if (A == B && A == C && A.length == 1 && B.length == 1 && C.length == 1) flag = true;
+            if (D == E && D == F && D.length == 1 && E.length == 1 && F.length == 1) flag = true;
+            if (G == H && G == I && G.length == 1 && H.length == 1 && I.length == 1) flag = true;
+            if (A == D && A == G && A.length == 1 && D.length == 1 && G.length == 1) flag = true;
+            if (B == E && B == F && B.length == 1 && E.length == 1 && F.length == 1) flag = true;
+            if (C == F && C == I && C.length == 1 && F.length == 1 && I.length == 1) flag = true;
+            if (A == E && A == I && A.length == 1 && E.length == 1 && I.length == 1) flag = true;
+            if (G == E && G == C && G.length == 1 && E.length == 1 && C.length == 1) flag = true;
+
+            if (flag) {
+                setTimeout(() => document.body.innerHTML = "", 1000);
+            }
+
+        }
+
+
+    </script>
+</body>
+
+</html>
